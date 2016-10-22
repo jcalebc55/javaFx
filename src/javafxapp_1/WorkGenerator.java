@@ -19,13 +19,12 @@ public class WorkGenerator implements Runnable{
     public WorkGenerator() {
         System.out.println("Inside work generator");
     Thread t = new Thread(this);
+    Thread t2 = new Thread(this);
+    Thread t3 = new Thread(this);
             t.start();
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(WorkGenerator.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
+        t2.start();
+        t3.start();
+        
     
     }
     
@@ -36,11 +35,12 @@ public class WorkGenerator implements Runnable{
         
     
     
-    public void run(){
+    public void   run(){
+        Restaurant res=Restaurant.createRestaurent();
         System.out.println("Inside run method");
         for(int i=0;i<10;i++){
-        Restaurant.addCustomer(Customer.createCustomer());
-        ArrayList alist= (ArrayList)Restaurant.getCustomerNamesInQueue();
+        res.addCustomer(Customer.createCustomer());
+        ArrayList alist= (ArrayList)res.getCustomerNamesInQueue();
         while(alist.size()>0){
           System.out.println("Customer list "+(String)alist.remove(0)) ;
         }
@@ -51,7 +51,9 @@ public class WorkGenerator implements Runnable{
         } catch (InterruptedException ex) {
             Logger.getLogger(WorkGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        new Restaurant(5,"Res").startServicing();
+        res.startServicing();
+        res.printCustomerRestaurantList();
+        
     }}
     
 }

@@ -6,7 +6,9 @@
 package javafxapp_1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -14,26 +16,39 @@ import java.util.List;
  */
 public class Restaurant implements Runnable{
     private static int  rcount=0;
-    private static ArrayList<Customer> CustomerList= new ArrayList<Customer>();
+    
+   // private static ArrayList<Customer> CustomerList= new ArrayList<Customer>();
+    private static ArrayList<Restaurant> restaurantList= new ArrayList<Restaurant>();
+    
+    private static  Map <Integer,ArrayList<Customer>> restaurantCustList= new HashMap<Integer,ArrayList<Customer>>();
     private static int serviceTime=3000;
     private static boolean doService;
     
-    public static void addCustomer(Customer customer){
+    public  void addCustomer(Customer customer){
+    if(restaurantCustList.containsKey(this.id))
+    {
+    ArrayList<Customer> CustList=restaurantCustList.get(id);
+    CustList.add(customer);
     
-        CustomerList.add(customer);
+    }else{
+        ArrayList<Customer> CustList=new ArrayList<Customer>();
+        CustList.add(customer);
+    restaurantCustList.put(this.id,CustList);
     }
-    
-    public static List getCustomerNamesInQueue(){
-        ArrayList custList=new ArrayList<String>();
-        for(Customer cust:CustomerList){
-        custList.add(cust.getCustname());
         
-        
-    }
-        return custList;
     }
     
-    public  void startServicing(){
+    public  List getCustomerNamesInQueue(){
+        ArrayList<Customer> custList=restaurantCustList.get(this.id);
+        ArrayList<String> custNames= new ArrayList<String>();
+        for(Customer cust:custList){
+        custNames.add(cust.getCustname());
+               
+    }
+        return custNames;
+    }
+    
+    public synchronized void  startServicing(){
         
         Thread t = new Thread(this);
         t.start();
@@ -54,17 +69,20 @@ public class Restaurant implements Runnable{
     
     
     
-    public static void serviceCustomer(){
-        if(CustomerList.size()>0){
-      Customer cust=  CustomerList.remove(0);
-        System.out.println("Customer "+cust.getCustname()+" is serviced");}
+    public  void serviceCustomer(){
+        ArrayList<Customer> custList=restaurantCustList.get(this.id);
+        
+        if(custList.size()>0){
+      Customer cust=  custList.remove(0);
+        System.out.println("Customer "+cust.getCustname()+" is serviced in Restaurant "+this.name);}
     }
     
     
-    public Restaurant createRestaurent(){
+    public synchronized static Restaurant createRestaurent(){
         
-        return new Restaurant(rcount++, "Restaurant"+rcount);
-        
+        Restaurant res= new Restaurant(rcount++, "Restaurant"+rcount);
+        restaurantList.add(res);
+        return res;
         
     }
     
@@ -76,8 +94,10 @@ public class Restaurant implements Runnable{
 
     @Override
     public void run() {
+        
+        ArrayList<Customer> custList=restaurantCustList.get(this.id);
         doService=true;
-        while(CustomerList.size()>0 && doService){
+        while(custList.size()>0 && doService){
             try{
         Thread.sleep(serviceTime);}
             catch(Exception E){ System.out.println("Servicing Interrupted");}
@@ -85,6 +105,10 @@ public class Restaurant implements Runnable{
         serviceCustomer();
         }
         doService=false;
+    }
+
+    void printCustomerRestaurantList() {
+        
     }
     
     
