@@ -27,7 +27,7 @@ public class Customer {
     
    public static synchronized Customer createCustomer(){
         Customer customer= new Customer("Customer"+cCount++,cCount);
-        System.out.println(customer.getCustname()+" is created");
+        
         
         return customer;
     }
