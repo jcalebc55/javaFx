@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -35,12 +36,20 @@ public class JavaFXApp_1 extends Application implements Runnable{
     
     @Override
     public void start(Stage primaryStage) {
-        switchScenes(primaryStage);
+        //switchScenes(primaryStage);
+        TextArea textArea = new TextArea();
+        textArea.setPrefRowCount(2);            
+textArea.setText("Hello\nworld!");
+        VBox layout=new VBox(20);
+        layout.getChildren().addAll(textArea);
+        Scene scene1=new Scene(layout,250,250);
+        
         //createAlertDialog(primaryStage);
        // gridPaneWindow(primaryStage);
         //checkBox(primaryStage);
         //ChooseBox(primaryStage);
-        
+        primaryStage.setScene(scene1);
+        primaryStage.show();
     }
     
     public void switchScenes(Stage primaryStage){

@@ -13,6 +13,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 public class JavaFx_GUI extends Application implements Runnable{
 
     Button button=new Button("Hello");
+    Button button2=new Button("Input");
     volatile boolean  flag;
     Stage window;
     @Override
@@ -38,10 +40,13 @@ public class JavaFx_GUI extends Application implements Runnable{
     grid.setVgap(8);
     grid.setHgap(20);
     
+        
+    
         GridPane.setConstraints(button, 0, 0);
         grid.getChildren().add(button);
  
-    
+    GridPane.setConstraints(button2, Integer.MAX_VALUE, 0);
+    grid.getChildren().add(button2);
       //////////////////////////////
     HashMap  map= (HashMap) Restaurant.getAllCustomerArrays();
     ArrayList<Integer> RestIds= new ArrayList<Integer>(map.keySet());

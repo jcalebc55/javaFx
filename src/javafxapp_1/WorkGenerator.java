@@ -19,13 +19,13 @@ public class WorkGenerator implements Runnable{
     public WorkGenerator() {
         System.out.println("Inside work generator");
     Thread t = new Thread(this);
-//    Thread t2 = new Thread(this);
-//    Thread t3 = new Thread(this);
-//    Thread t4 = new Thread(this);
+    Thread t2 = new Thread(this);
+    Thread t3 = new Thread(this);
+    Thread t4 = new Thread(this);
            t.start();
-//        t2.start();
-//        t3.start();
-//        t4.start();
+        t2.start();
+        t3.start();
+        t4.start();
         
     
     }
